@@ -12,6 +12,12 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.RestApi">
         <activity
+                android:name=".UpdateMahasiswaActivity"
+                android:exported="true"/>
+        <activity
+                android:name=".ReadMahasiswaActivity"
+                android:exported="true"/>
+        <activity
                 android:name=".SearchMahasiswaActivity"
                 android:exported="true"/>
 

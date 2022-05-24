@@ -14,6 +14,14 @@ public class Mahasiswa {
     @SerializedName("email")
     private String email;
 
+    public Mahasiswa(String nama, String jurusan, String id, String nrp, String email) {
+        this.nama = nama;
+        this.jurusan = jurusan;
+        this.id = id;
+        this.nrp = nrp;
+        this.email = email;
+    }
+
     public String getNama(){
         return nama;
     }

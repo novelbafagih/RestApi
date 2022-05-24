@@ -15,57 +15,46 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
-    private EditText edtNrp;
+public class UpdateMahasiswaActivity extends AppCompatActivity {
     private EditText edtNama;
     private EditText edtEmail;
     private EditText edtJurusan;
     private ProgressBar progressBar;
     private Button btnAdd;
-    private Button btnSearch;
-    private Button btnListData;
+    private String id;
+    private String nrp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        edtNrp = findViewById(R.id.edtNrp);
+        setContentView(R.layout.activity_update_mahasiswa);
         edtNama = findViewById(R.id.edtNama);
         edtEmail = findViewById(R.id.edtEmail);
         edtJurusan = findViewById(R.id.edtJurusan);
         progressBar = findViewById(R.id.progressBar);
         btnAdd = findViewById(R.id.btnAdd);
-        btnListData = findViewById(R.id.btnList);
-        btnSearch = findViewById(R.id.btnSearch);
+        Intent intent = getIntent();
+
+        id = intent.getStringExtra("id");
+        nrp = intent.getStringExtra("nrp");
         btnAdd.setOnClickListener(view -> {
-            addDataMahasiswa();
-        });
-        btnSearch.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this,
-                    SearchMahasiswaActivity.class);
-            startActivity(intent);
-        });
-        btnListData.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this,
-                    ReadMahasiswaActivity.class);
-            startActivity(intent);
+            updateMahasiswa();
         });
     }
 
-    private void addDataMahasiswa() {
+    private void updateMahasiswa() {
         showLoading(true);
-        String nrp = edtNrp.getText().toString();
         String nama = edtNama.getText().toString();
         String email = edtEmail.getText().toString();
         String jurusan = edtJurusan.getText().toString();
-        if (nrp.isEmpty() || nama.isEmpty() ||
+        if (nama.isEmpty() ||
                 email.isEmpty() || jurusan.isEmpty()) {
-            Toast.makeText(MainActivity.this, "Silahkan lengkapi form terlebih dahulu",
+            Toast.makeText(UpdateMahasiswaActivity.this, "Silahkan lengkapi form terlebih dahulu",
                     Toast.LENGTH_SHORT).show();
             showLoading(false);
         } else {
             Call<AddMahasiswaResponse> client =
-                    ApiConfig.getApiService().addMahasiswa(nrp, nama, email,
+                    ApiConfig.getApiService().updateMahasiswa(id,nrp, nama, email,
                             jurusan);
             client.enqueue(new
                                    Callback<AddMahasiswaResponse>() {
@@ -77,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
                                            if (response.isSuccessful()) {
                                                if (response.body() != null) {
-                                                   Toast.makeText(MainActivity.this, "Berhasil menambahakan silahakan cek data pada halaman list !",
-                                                   Toast.LENGTH_SHORT).show();
+                                                   Toast.makeText(UpdateMahasiswaActivity.this, "Berhasil menambahakan silahakan cek data pada halaman list !",
+                                                           Toast.LENGTH_SHORT).show();
                                                }
                                            } else {
                                                if (response.body() != null) {
